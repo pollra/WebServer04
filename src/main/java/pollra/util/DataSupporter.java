@@ -3,13 +3,18 @@ package main.java.pollra.util;
 import main.java.pollra.client.http.HttpMethod;
 import main.java.pollra.client.http.HttpRequest;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class DataSupporter {
+
+    private final String F_defualtPath = "src/main/resources/page";
 
     // rawData(HttpHeader / type: byte[]) 를 받아서 HttpRequest 를 리턴하는 메소드
     public HttpRequest byteToHttpRequest(byte[] rawData){
@@ -49,6 +54,11 @@ public class DataSupporter {
                 .setHeader(header)
                 .build();
         return httpRequest;
+    }
+
+    // input URI, return file(type : byte[])
+    public byte[] uriToFileByteArray(String uri) throws IOException {
+        return Files.readAllBytes(new File(F_defualtPath+uri).toPath());
     }
 
 }

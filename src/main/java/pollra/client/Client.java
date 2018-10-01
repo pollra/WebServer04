@@ -25,7 +25,8 @@ public class Client implements Runnable{
             final byte[] buffer = new byte[BUF_SIZE];
             DataInputStream dis = new DataInputStream(is);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] body = Files.readAllBytes(new File("src/main/resources/page/index.html").toPath());
+            DataSupporter dataSupporter = new DataSupporter();      // 데이터 서포터
+            byte[] body;
 
             int len;
 
@@ -41,8 +42,8 @@ public class Client implements Runnable{
             final byte[] rawData = baos.toByteArray();
 
             // 값들을 모두 불러들인 뒤 DataSupporter 로 빌드
-            DataSupporter dataSupporter = new DataSupporter();
             HttpRequest httpRequest = dataSupporter.byteToHttpRequest(baos.toByteArray());
+            body = dataSupporter.uriToFileByteArray(httpRequest.getUri());
             System.out.println(httpRequest.toString());
 
             // Client Response Html
