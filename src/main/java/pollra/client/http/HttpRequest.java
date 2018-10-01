@@ -80,9 +80,11 @@ public class HttpRequest {
             httpRequest.uri = uri;
             httpRequest.protocol = protocol;
             httpRequest.header = header;
+            httpRequest.body = body;
             return httpRequest;
         }
     }
+
 
     @Override
     public String toString() {
@@ -91,7 +93,10 @@ public class HttpRequest {
                 ", uri='" + uri + '\'' +
                 ", protocol='" + protocol + '\'' +
                 ", header=" + header +
-                ", body=" + Arrays.toString(body) +
+                ", body=" + (
+                                body == null?   // 타입에 따라서도 바꿔줘야함
+                                        "no Data" : new String(body)
+                            ) +
                 '}';
     }
 }

@@ -21,27 +21,26 @@ public class DataSupporter {
         Map<String, String> header = new HashMap<>();
 
         String rawData_String = new String(rawData, Charset.forName("UTF-8"));
-
         for(String data : rawData_String.split("\r\n")){
             count = 0;
             // GET / HTTP/1.1
             if(requestLine[0] == null){
-                for(String temp : data.split(" ")){
-                    requestLine[count++] = temp.trim();
-                }
+                for(String temp : data.split(" ")){ requestLine[count++] = temp.trim(); }
             }
             count = 0;
             // Key: value
-            for(String temp : data.split(":", 2)){
-                tempArray[count++] = temp.trim();
-            }
+            for(String temp : data.split(":", 2)){ tempArray[count++] = temp.trim(); }
             header.put(tempArray[0], tempArray[1]);
         }
 
         for(Map.Entry<String, String> ent : header.entrySet()){
             if(ent.getKey().trim().equals("Content-Length")){
-                System.out.println("[!]byteToHttpRequest - [Content-Length: "+ ent.getValue()+"]");
-
+                HttpRequest httpRequest = builder
+                        .setRequestLine(requestLine)
+                        .setHeader(header)
+                        .setBody(rawData_String.substring(rawData_String.length()-Integer.parseInt(ent.getValue())).getBytes())
+                        .build();
+                return httpRequest;
             }
         }
 
