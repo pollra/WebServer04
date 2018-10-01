@@ -1,5 +1,10 @@
 package main.java.pollra.client;
 
+import main.java.pollra.client.http.HttpRequest;
+import main.java.pollra.client.http.HttpResponse;
+import main.java.pollra.client.http.HttpStatus;
+import main.java.pollra.util.DataSupporter;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -32,14 +37,31 @@ public class Client implements Runnable{
                     break;
                 }
             }
-
+            // rawData 를 HttpReqeust 객체로 만들어서 저장.
             final byte[] rawData = baos.toByteArray();
 
-            // 값들을 모두 불러들인 뒤 RequestBuilder 로 빌더
+            // 값들을 모두 불러들인 뒤 DataSupporter 로 빌드
+            DataSupporter dataSupporter = new DataSupporter();
+            HttpRequest httpRequest = dataSupporter.byteToHttpRequest(baos.toByteArray());
+            System.out.println(httpRequest.toString());
 
+            // Client Response Html
+            HttpResponse.ResponseBuilder builder = new HttpResponse.ResponseBuilder(HttpStatus.OK);
+            HttpResponse response = builder
+                    .addResponseHeader("Content-Type", "text/html;charset=utf-8")
+                    .addResponseHeader("Content-Length", body.length + "")
+                    .Builder();
+            DataOutputStream dos = new DataOutputStream(os);
+            // HTTP/1.1 200 OK
+            dos.writeBytes(response.getProtocol() + " " + response.getStatus().getStatusMessage() + "\r\n");
+            for(Map.Entry<String, String> ent : response.getResponseHeader().entrySet()){
+                dos.writeBytes(ent.getKey()+": "+ent.getValue()+"\r\n");
+            }
+            dos.writeBytes("\r\n");
+            dos.write(body, 0, body.length);
+            dos.writeBytes("\r\n");
 
-
-
+            dos.flush();
         }catch(IOException e){
             e.printStackTrace();
         }

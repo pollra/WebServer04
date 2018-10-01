@@ -9,8 +9,10 @@ public enum  HttpStatus {
     // 3xx
 
     // 4xx
-    HttpStatus(String statusMessage){ this.statusMessage = statusMessage; }
     private String statusMessage;
+
+    HttpStatus(String statusMessage){ this.statusMessage = statusMessage; }
+
     public String getStatusMessage(){ return statusMessage; }
 
 }

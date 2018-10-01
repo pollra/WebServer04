@@ -19,19 +19,16 @@ public class HttpResponse {
 
     public byte[] getBody() {return body;}
 
-    private static class ResponseBuilder{
+    public static class ResponseBuilder{
         private String protocol = "HTTP/1.1";
         private HttpStatus status;
         private Map<String, String> responseHeader = new HashMap<>();
         private byte[] body;
 
+        public ResponseBuilder(HttpStatus status) { this.status = status; }
+
         public ResponseBuilder setProtocol(String protocol) {
             this.protocol = protocol;
-            return this;
-        }
-
-        public ResponseBuilder setStatus(HttpStatus status) {
-            this.status = status;
             return this;
         }
 

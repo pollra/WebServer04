@@ -1,5 +1,6 @@
 package main.java.pollra.client.http;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +38,16 @@ public class HttpRequest {
         private Map<String, String> header = new HashMap<>();
         private byte[] body;
 
+        public RequestBuilder setRequestLine(String[] requestLine){
+            if(requestLine.length <= 3) {
+                this.method = HttpMethod.valueOf(requestLine[0]);
+                this.uri = requestLine[1];
+                this.protocol = requestLine[2];
+            }else{
+                System.out.println("[!] Error: setRequestLine Exception");
+            }
+            return this;
+        }
 
         public RequestBuilder setMethod(HttpMethod method) {
             this.method = method;
@@ -63,7 +74,7 @@ public class HttpRequest {
             return this;
         }
 
-        public HttpRequest builder(){
+        public HttpRequest build(){
             HttpRequest httpRequest= new HttpRequest();
             httpRequest.method = method;
             httpRequest.uri = uri;
@@ -71,5 +82,16 @@ public class HttpRequest {
             httpRequest.header = header;
             return httpRequest;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "HttpRequest{" +
+                "method=" + method +
+                ", uri='" + uri + '\'' +
+                ", protocol='" + protocol + '\'' +
+                ", header=" + header +
+                ", body=" + Arrays.toString(body) +
+                '}';
     }
 }
