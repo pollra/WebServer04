@@ -1,5 +1,6 @@
 package main.java.pollra.client;
 
+import main.java.pollra.client.controller.PageController;
 import main.java.pollra.client.http.HttpRequest;
 import main.java.pollra.client.http.HttpResponse;
 import main.java.pollra.client.http.HttpStatus;
@@ -26,6 +27,9 @@ public class Client implements Runnable{
             DataInputStream dis = new DataInputStream(is);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             DataSupporter dataSupporter = new DataSupporter();      // 데이터 서포터
+
+
+            PageController controller = PageController.getInstanse();
             byte[] body;
 
             int len;
@@ -43,11 +47,16 @@ public class Client implements Runnable{
 
             // 값들을 모두 불러들인 뒤 DataSupporter 로 빌드
             HttpRequest httpRequest = dataSupporter.byteToHttpRequest(baos.toByteArray());
-            body = dataSupporter.uriToFileByteArray(httpRequest.getUri());
+            body = controller.PageController(httpRequest.getUri());
             System.out.println(httpRequest.toString());
 
             // Client Response Html
-            HttpResponse.ResponseBuilder builder = new HttpResponse.ResponseBuilder(HttpStatus.OK);
+            HttpResponse.ResponseBuilder builder;
+            if(controller.foundPage(httpRequest.getUri())>=0){
+                builder = new HttpResponse.ResponseBuilder(HttpStatus.OK);
+            }else{
+                builder = new HttpResponse.ResponseBuilder(HttpStatus.NotFound);
+            }
             HttpResponse response = builder
                     .addResponseHeader("Content-Type", "text/html;charset=utf-8")
                     .addResponseHeader("Content-Length", body.length + "")

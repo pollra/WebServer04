@@ -6,24 +6,45 @@ import java.nio.file.Files;
 
 public class PageController{
 
-    private String[] uriList = {
-            "/index.html", "/index.html",
-            "/login/No.html", "/login/Ok.html"
+    private String[][] uriList = {
+            {"/","/index","/index.html"},
+            {"/indexOk", "/indexOk.html","/indexOk"},
+            {"/Ok.html"},
+            {"/No.html"}
     };
 
     private PageController(){}
-    public PageController getInstanse(){ return SingletonHolder.instanse; }
-    public static class SingletonHolder { public static PageController instanse = new PageController(); }
+    public static PageController getInstanse(){ return SingletonHolder.instanse; }
+    public static class SingletonHolder { private static PageController instanse = new PageController(); }
 
     public byte[] PageController(String uri) throws IOException{
-        byte[] error404 = Files.readAllBytes(new File("src/main/resources/page/error/404.html").toPath());
-        String[] target = {"/","/index","/index.html"};
-        for(String temp : target){
-            if(temp.equals(uri)){
-                return Files.readAllBytes(new File("src/main/resources/page"+uri).toPath());
+        byte[] result = Files.readAllBytes(new File("src/main/resources/page/error/404.html").toPath());
+        switch (foundPage(uri)){
+            case 0:
+                result = Files.readAllBytes(new File("src/main/resources/page/index.html").toPath());
+                break;
+            case 1:
+                result = Files.readAllBytes(new File("src/main/resources/page/indexOk.html").toPath());
+                break;
+            case 2:
+                result = Files.readAllBytes(new File("src/main/resources/page/login/Ok.html").toPath());
+                break;
+            case 3:
+                result = Files.readAllBytes(new File("src/main/resources/page/login/No.html").toPath());
+                break;
+        }
+        return result;
+    }
+
+    public int foundPage(String uri){
+        for(int i =0; i<uriList.length; i++){
+            for(int j=0; j<uriList[i].length; j++){
+                if(uriList[i][j].equals(uri)){
+                    return i;
+                }
             }
         }
-        return error404;
+        return -1;
     }
 
 }

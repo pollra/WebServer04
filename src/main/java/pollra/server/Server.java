@@ -22,9 +22,7 @@ public class Server {
         }
     }
     public static Server getInstance(){ return SingletonHolder.instanse; }
-    private static class SingletonHolder{
-        private static Server instanse = new Server();
-    }
+    private static class SingletonHolder{private static Server instanse = new Server();}
 
     public void start() throws IOException{
         System.out.println("ㅇㅅㅇ");
