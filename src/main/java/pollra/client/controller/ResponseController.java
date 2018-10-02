@@ -39,10 +39,10 @@ public class ResponseController {
         if(httpRequest.getBody() != null){
             Map<String, String> user = new HashMap<>();
             String requestUser = new String(httpRequest.getBody());
+            System.out.println(requestUser);
             for(String temp : requestUser.split("&")){
                 user.put(temp.split("=")[0],temp.split("=")[1]);
             }
-            System.out.println(user.get("email")+user.get("pass"));
 
             LoginResolver loginResolver = new LoginResolver();
             switch (loginResolver.loginAction(user.get("email"), user.get("pass"))){
@@ -54,14 +54,10 @@ public class ResponseController {
                     break;
                 case 2:
                     System.out.println("로그인 성공");
-
+                    httpHeader.addResponseHeader("Set-Cookie","Login-cookie=login:"+user.get("email"));
                     break;
             }
         }
-
         return httpHeader;
     }
-
-
-
 }

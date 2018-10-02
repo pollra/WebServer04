@@ -5,8 +5,7 @@ import main.java.pollra.client.controller.ResponseController;
 import main.java.pollra.client.http.HttpHeader;
 import main.java.pollra.client.http.HttpRequest;
 import main.java.pollra.client.http.HttpResponse;
-import main.java.pollra.client.http.HttpStatus;
-import main.java.pollra.util.DataSupporter;
+import main.java.pollra.client.mapper.DataSupporter;
 
 import java.io.*;
 import java.net.Socket;

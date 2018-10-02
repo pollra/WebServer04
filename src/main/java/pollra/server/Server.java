@@ -1,7 +1,6 @@
 package main.java.pollra.server;
 
 import main.java.pollra.client.Client;
-import main.java.pollra.util.DataSupporter;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,4 +1,4 @@
-package main.java.pollra.util;
+package main.java.pollra.client.mapper;
 
 import main.java.pollra.client.http.HttpMethod;
 import main.java.pollra.client.http.HttpRequest;
