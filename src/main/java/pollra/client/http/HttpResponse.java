@@ -1,5 +1,6 @@
 package main.java.pollra.client.http;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,10 @@ public class HttpResponse {
 
     public byte[] getBody() {return body;}
 
+    public void setBody(byte[] body) {
+        this.body = body;
+    }
+
     public static class ResponseBuilder{
         private String protocol = "HTTP/1.1";
         private HttpStatus status;
@@ -37,6 +42,15 @@ public class HttpResponse {
             return this;
         }
 
+        public ResponseBuilder setHeader(HttpHeader header) {
+            this.setProtocol(header.getProtocol());
+            this.responseHeader = header.getResponseHeader();
+            for(Map.Entry<String, String> ent : header.getResponseHeader().entrySet()){
+                this.responseHeader.put(ent.getKey(), ent.getValue());
+            }
+            return this;
+        }
+
         public ResponseBuilder setBody(byte[] body) {
             this.body = body;
             return this;
@@ -47,8 +61,17 @@ public class HttpResponse {
             httpResponse.protocol = protocol;
             httpResponse.status = status;
             httpResponse.responseHeader = responseHeader;
-            httpResponse.body = body;
             return httpResponse;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "HttpResponse{" +
+                "protocol='" + protocol + '\'' +
+                ", status=" + status +
+                ", responseHeader=" + responseHeader +
+                ", body=" + Arrays.toString(body) +
+                '}';
     }
 }

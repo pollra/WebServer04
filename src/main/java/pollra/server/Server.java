@@ -13,7 +13,6 @@ public class Server {
     private final int port = 12345;
     private ServerSocket serverSocket;
     private ExecutorService executorService;
-    private DataSupporter dataSupporter;
 
     private Server(){
         try{

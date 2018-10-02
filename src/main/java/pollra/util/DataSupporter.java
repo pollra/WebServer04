@@ -12,12 +12,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 클라이언트에서 받은 Request를 객체화 시켜서
+ * 다시 클라이언트로 보내주는 역할을 한다.
+ */
 public class DataSupporter {
 
-    private final String F_defualtPath = "src/main/resources/page";
-
     // rawData(HttpHeader / type: byte[]) 를 받아서 HttpRequest 를 리턴하는 메소드
-    public HttpRequest byteToHttpRequest(byte[] rawData){
+    public HttpRequest bytesToHttpRequest(byte[] rawData){
         HttpRequest.RequestBuilder builder = new HttpRequest.RequestBuilder();
         int count;
         // method / uri / protocol
@@ -56,30 +58,4 @@ public class DataSupporter {
         return httpRequest;
     }
 
-    // input URI, return file(type : byte[])
-    public byte[] uriToFileByteArray(String uri) throws IOException {
-        return Files.readAllBytes(new File(F_defualtPath+uri).toPath());
-    }
-
-    // 특정 디렉토리에 있는 파일 목록 읽고 Map<fileName, filePath> 리턴
-    // defualt Path : src/main/resources/page
-    public Map<String, String> dirList(String source){
-        Map<String, String> result = new HashMap<>();
-        File dir = new File(source);
-        File[] fileList = dir.listFiles();
-        for(int i=0; i<fileList.length; i++){
-            File file = fileList[i];
-            if(file.isFile()){ // 파일일 경우
-                System.out.println(file.getName().substring(0, file.getName().indexOf("."))+" : "+ source+"/" +file.getName());
-                result.put(file.getName().substring(0, file.getName().indexOf(".")), source+"/" +file.getName());
-            }else if(file.isDirectory()){ // 디렉토리 일 경우
-                dirList(source +"/"+ file.getName());
-            }
-        }
-        return result;
-    }
-
-    public Map<String, String> dirList(){
-        return dirList(F_defualtPath);
-    }
 }
