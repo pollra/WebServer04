@@ -53,30 +53,9 @@ public class Client implements Runnable{
 
             HttpResponse response = viewResolver.createHttpResponse(httpHeader, body);
 
-            view(os, body, response);
+            viewResolver.view(os, body, response);
         }catch(IOException e){
             e.printStackTrace();
         }
-    }
-
-
-    private void view(OutputStream os, byte[] body, HttpResponse response) throws IOException {
-        DataOutputStream dos = new DataOutputStream(os);
-        // HTTP/1.1 200 OK
-        System.out.println(response.toString());
-        dos.writeBytes(response.getProtocol()
-                + " "
-                + response
-                    .getStatus()
-                    .getStatusMessage()
-                + "\r\n");
-        for(Map.Entry<String, String> ent : response.getResponseHeader().entrySet()){
-            dos.writeBytes(ent.getKey()+": "+ent.getValue()+"\r\n");
-        }
-        dos.writeBytes("\r\n");
-        dos.write(body, 0, body.length);
-        dos.writeBytes("\r\n");
-
-        dos.flush();
     }
 }

@@ -4,8 +4,10 @@ import main.java.pollra.client.http.HttpHeader;
 import main.java.pollra.client.http.HttpResponse;
 import main.java.pollra.util.DataSupporter;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +37,6 @@ public class ViewResolver {
     }
 
     public String getPageUri(String uri){
-        System.out.println("getPageUri("+uri+")");
         for(Map.Entry<String, String> ent : pageList.entrySet()){
             if(ent.getKey().equals(uri)){
                 return ent.getValue();
@@ -71,7 +72,7 @@ public class ViewResolver {
         for(int i=0; i<fileList.length; i++){
             File file = fileList[i];
             if(file.isFile()){ // 파일일 경우
-                System.out.println(file.getName().substring(0, file.getName().indexOf("."))+" : "+ source+"/" +file.getName());
+//                System.out.println(file.getName().substring(0, file.getName().indexOf("."))+" : "+ source+"/" +file.getName());
                 result.put(file.getName().substring(0, file.getName().indexOf(".")), source+"/" +file.getName());
             }else if(file.isDirectory()){ // 디렉토리 일 경우
                 dirList(source +"/"+ file.getName());
@@ -91,4 +92,23 @@ public class ViewResolver {
         return httpResponse;
     }
 
+    public void view(OutputStream os, byte[] body, HttpResponse response) throws IOException {
+        DataOutputStream dos = new DataOutputStream(os);
+        // HTTP/1.1 200 OK
+        System.out.println(response.toString());
+        dos.writeBytes(response.getProtocol()
+                + " "
+                + response
+                .getStatus()
+                .getStatusMessage()
+                + "\r\n");
+        for(Map.Entry<String, String> ent : response.getResponseHeader().entrySet()){
+            dos.writeBytes(ent.getKey()+": "+ent.getValue()+"\r\n");
+        }
+        dos.writeBytes("\r\n");
+        dos.write(body, 0, body.length);
+        dos.writeBytes("\r\n");
+
+        dos.flush();
+    }
 }

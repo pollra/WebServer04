@@ -1,12 +1,14 @@
 package main.java.pollra.client.controller;
 
 
+import main.java.pollra.client.Resolver.LoginResolver;
 import main.java.pollra.client.Resolver.ViewResolver;
 import main.java.pollra.client.http.HttpHeader;
 import main.java.pollra.client.http.HttpRequest;
 import main.java.pollra.client.http.HttpResponse;
 import main.java.pollra.client.http.HttpStatus;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,25 +23,6 @@ public class ResponseController {
         this.httpRequest = httpRequest;
     }
 
-    /*
-    // Client에서 오는 Request를 객체로 만들어 저장.
-    HttpRequest httpRequest = dataSupporter.bytesToHttpRequest(baos.toByteArray());
-    System.out.println(httpRequest.toString());
-    body = viewResolver.getUriToFileBytes(httpRequest.getUri());
-
-    // Request 객체를 넘기고 ResponseHeader를 받는다
-
-    // Client Response Html
-    HttpResponse.ResponseBuilder builder;
-    HttpStatus status = HttpStatus.NotFound;
-    if(viewResolver.foundPage(httpRequest.getUri())>=0){
-        status = HttpStatus.OK;
-    }
-    builder = new HttpResponse.ResponseBuilder(status);
-    HttpResponse response = builder
-            .addResponseHeader("Content-Type", "text/html;charset=utf-8")
-            .addResponseHeader("Content-Length", body.length + "")
-            .Builder();*/
     public HttpHeader createHeader(int bodyLength){
         HttpHeader httpHeader = new HttpHeader();
         /**
@@ -54,7 +37,26 @@ public class ResponseController {
         httpHeader.addResponseHeader("Content-Type", "text/html;charset=utf-8");
         httpHeader.addResponseHeader("Content-Length", bodyLength + "");
         if(httpRequest.getBody() != null){
-            System.out.println("쿠키 만드는거");
+            Map<String, String> user = new HashMap<>();
+            String requestUser = new String(httpRequest.getBody());
+            for(String temp : requestUser.split("&")){
+                user.put(temp.split("=")[0],temp.split("=")[1]);
+            }
+            System.out.println(user.get("email")+user.get("pass"));
+
+            LoginResolver loginResolver = new LoginResolver();
+            switch (loginResolver.loginAction(user.get("email"), user.get("pass"))){
+                case 0:
+                    System.out.println("존재하지 않는 아이디");
+                    break;
+                case 1:
+                    System.out.println("비밀번호 틀림");
+                    break;
+                case 2:
+                    System.out.println("로그인 성공");
+
+                    break;
+            }
         }
 
         return httpHeader;
