@@ -47,8 +47,11 @@ public class Client implements Runnable{
 
             // 값들을 모두 불러들인 뒤 DataSupporter 로 빌드
             HttpRequest httpRequest = dataSupporter.byteToHttpRequest(baos.toByteArray());
-            body = controller.PageController(httpRequest.getUri());
             System.out.println(httpRequest.toString());
+            body = controller.PageController(httpRequest.getUri());
+
+            // 요청에 따라 다른 명령을 수행
+
 
             // Client Response Html
             HttpResponse.ResponseBuilder builder;

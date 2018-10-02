@@ -1,6 +1,7 @@
 package main.java.pollra.server;
 
 import main.java.pollra.client.Client;
+import main.java.pollra.util.DataSupporter;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,6 +13,7 @@ public class Server {
     private final int port = 12345;
     private ServerSocket serverSocket;
     private ExecutorService executorService;
+    private DataSupporter dataSupporter;
 
     private Server(){
         try{
@@ -26,9 +28,14 @@ public class Server {
 
     public void start() throws IOException{
         System.out.println("ㅇㅅㅇ");
+
         while(true){
             Socket socket = serverSocket.accept();
             executorService.execute(new Client(socket));
         }
+    }
+
+    private void init(){
+
     }
 }

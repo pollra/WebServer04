@@ -61,4 +61,25 @@ public class DataSupporter {
         return Files.readAllBytes(new File(F_defualtPath+uri).toPath());
     }
 
+    // 특정 디렉토리에 있는 파일 목록 읽고 Map<fileName, filePath> 리턴
+    // defualt Path : src/main/resources/page
+    public Map<String, String> dirList(String source){
+        Map<String, String> result = new HashMap<>();
+        File dir = new File(source);
+        File[] fileList = dir.listFiles();
+        for(int i=0; i<fileList.length; i++){
+            File file = fileList[i];
+            if(file.isFile()){ // 파일일 경우
+                System.out.println(file.getName().substring(0, file.getName().indexOf("."))+" : "+ source+"/" +file.getName());
+                result.put(file.getName().substring(0, file.getName().indexOf(".")), source+"/" +file.getName());
+            }else if(file.isDirectory()){ // 디렉토리 일 경우
+                dirList(source +"/"+ file.getName());
+            }
+        }
+        return result;
+    }
+
+    public Map<String, String> dirList(){
+        return dirList(F_defualtPath);
+    }
 }
