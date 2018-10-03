@@ -2,6 +2,7 @@ package main.java.pollra.client.Resolver;
 
 import main.java.pollra.client.controller.LoginActionExample;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class LoginResolver {
@@ -18,7 +19,7 @@ public class LoginResolver {
      * 1: id is ok. but does not match password
      * 2: id, password OK. Login
      */
-    public int loginAction(String id, String pw){
+    public int loginStatus(String id, String pw){
         for(Map.Entry<String, String> ent : actionExample.getUser().entrySet()){
             if(ent.getKey().equals(id)){
                 if(ent.getValue().equals(pw)){
@@ -29,5 +30,31 @@ public class LoginResolver {
         }
         return 0;
     }
+
+    public Map<String, String> loginAction(byte[] body){
+        Map<String, String> user = new HashMap<>();
+        Map<String, String> result = new HashMap<>();
+        String requestUser = new String(body);
+        System.out.println(requestUser);
+        for(String temp : requestUser.split("&")){
+            user.put(temp.split("=")[0],temp.split("=")[1]);
+        }
+
+        LoginResolver loginResolver = new LoginResolver();
+        switch (loginResolver.loginStatus(user.get("email"), user.get("pass"))){
+            case 0:
+                System.out.println("존재하지 않는 아이디");
+                break;
+            case 1:
+                System.out.println("비밀번호 틀림");
+                break;
+            case 2:
+                System.out.println("로그인 성공");
+                result.put("Set-Cookie","Login-cookie=login:"+user.get("email"));
+                break;
+        }
+        return result;
+    }
+
 
 }

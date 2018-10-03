@@ -37,27 +37,14 @@ public class ResponseController {
         httpHeader.addResponseHeader("Content-Type", "text/html;charset=utf-8");
         httpHeader.addResponseHeader("Content-Length", bodyLength + "");
         if(httpRequest.getBody() != null){
-            Map<String, String> user = new HashMap<>();
-            String requestUser = new String(httpRequest.getBody());
-            System.out.println(requestUser);
-            for(String temp : requestUser.split("&")){
-                user.put(temp.split("=")[0],temp.split("=")[1]);
-            }
-
             LoginResolver loginResolver = new LoginResolver();
-            switch (loginResolver.loginAction(user.get("email"), user.get("pass"))){
-                case 0:
-                    System.out.println("존재하지 않는 아이디");
-                    break;
-                case 1:
-                    System.out.println("비밀번호 틀림");
-                    break;
-                case 2:
-                    System.out.println("로그인 성공");
-                    httpHeader.addResponseHeader("Set-Cookie","Login-cookie=login:"+user.get("email"));
-                    break;
+            Map<String, String> login = loginResolver.loginAction(httpRequest.getBody());
+            for(Map.Entry<String, String> ent : login.entrySet()){
+                httpHeader.addResponseHeader(ent.getKey(), ent.getValue());
             }
         }
+
+
         return httpHeader;
     }
 }

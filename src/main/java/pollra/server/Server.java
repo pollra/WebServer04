@@ -25,10 +25,11 @@ public class Server {
     private static class SingletonHolder{private static Server instanse = new Server();}
 
     public void start() throws IOException{
-        System.out.println("ㅇㅅㅇ");
 
         while(true){
+
             Socket socket = serverSocket.accept();
+            System.out.println(socket.getInetAddress()+"에서 접속 시도...");
             executorService.execute(new Client(socket));
         }
     }
