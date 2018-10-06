@@ -1,6 +1,6 @@
-package main.java;
+package com.pollra;
 
-import main.java.pollra.server.Server;
+import com.pollra.server.Server;
 
 import java.io.IOException;
 

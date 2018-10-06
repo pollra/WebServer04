@@ -1,11 +1,11 @@
-package main.java.pollra.client;
+package com.pollra.client;
 
-import main.java.pollra.client.Resolver.ViewResolver;
-import main.java.pollra.client.controller.ResponseController;
-import main.java.pollra.client.http.HttpHeader;
-import main.java.pollra.client.http.HttpRequest;
-import main.java.pollra.client.http.HttpResponse;
-import main.java.pollra.client.mapper.DataSupporter;
+import com.pollra.client.Resolver.ViewResolver;
+import com.pollra.client.controller.ResponseController;
+import com.pollra.client.http.HttpHeader;
+import com.pollra.client.http.HttpRequest;
+import com.pollra.client.http.HttpResponse;
+import com.pollra.client.mapper.DataSupporter;
 
 import java.io.*;
 import java.net.Socket;

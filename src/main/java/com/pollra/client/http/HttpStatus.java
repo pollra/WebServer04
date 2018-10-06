@@ -1,4 +1,4 @@
-package main.java.pollra.client.http;
+package com.pollra.client.http;
 
 public enum  HttpStatus {
     // 1xx

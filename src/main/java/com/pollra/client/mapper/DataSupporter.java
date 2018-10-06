@@ -1,15 +1,9 @@
-package main.java.pollra.client.mapper;
+package com.pollra.client.mapper;
 
-import main.java.pollra.client.http.HttpMethod;
-import main.java.pollra.client.http.HttpRequest;
+import com.pollra.client.http.HttpRequest;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**

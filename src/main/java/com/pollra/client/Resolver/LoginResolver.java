@@ -1,6 +1,6 @@
-package main.java.pollra.client.Resolver;
+package com.pollra.client.Resolver;
 
-import main.java.pollra.client.controller.LoginActionExample;
+import com.pollra.client.controller.LoginActionExample;
 
 import java.util.HashMap;
 import java.util.Map;

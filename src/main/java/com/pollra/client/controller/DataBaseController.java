@@ -1,4 +1,4 @@
-package main.java.pollra.client.controller;
+package com.pollra.client.controller;
 
 /**
  *
