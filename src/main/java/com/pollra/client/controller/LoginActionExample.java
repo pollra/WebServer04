@@ -1,4 +1,4 @@
-package main.java.pollra.client.controller;
+package com.pollra.client.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class LoginActionExample {
     private Map<String, String> User = new HashMap<>();
     public LoginActionExample(){
-        User.put("pollra", "admin");
+        User.put("com/pollra", "admin");
         User.put("testid","testpw");
     }
 

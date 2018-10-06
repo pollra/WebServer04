@@ -1,6 +1,5 @@
-package main.java.pollra.client.http;
+package com.pollra.client.http;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

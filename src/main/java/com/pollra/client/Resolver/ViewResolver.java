@@ -1,7 +1,7 @@
-package main.java.pollra.client.Resolver;
+package com.pollra.client.Resolver;
 
-import main.java.pollra.client.http.HttpHeader;
-import main.java.pollra.client.http.HttpResponse;
+import com.pollra.client.http.HttpHeader;
+import com.pollra.client.http.HttpResponse;
 
 import java.io.DataOutputStream;
 import java.io.File;
